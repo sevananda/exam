@@ -1,0 +1,965 @@
+// import React from 'react'
+
+// const Numbers = () => {
+//   return (
+//     <div>
+//          <div className="grid grid-cols-4">
+//         <div className="col-span-1 bg-gray-100 p-4 shadow-lg">
+//             <h3 className="font-bold text-lg mb-4">Chapter 1</h3>
+//             <div className="grid grid-cols-5 gap-2">
+//               {Array.from({ length: 20 }, (_, i) => (
+//                 <button key={i} className={`w-10 h-10 rounded-full text-white ${i % 2 === 0 ? 'bg-red-400' : 'bg-green-400'}`}>
+//                   {i + 1}
+//                 </button>
+//               ))}
+//             </div>
+//         </div>
+//     </div>
+//     </div>
+//   )
+// }
+
+// export default Numbers
+
+// "use client"
+
+// import React, { useState } from 'react'
+// import { quizQuestions } from '@/utils/constants' // Import your quiz questions
+
+// const Numbers = () => {
+//   // State to track the currently selected question
+//   const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
+
+//   // State to track the selected option for each question
+//   const [selectedOptions, setSelectedOptions] = useState<{ [key: number]: number | null }>({});
+
+//   // Handle click on number button
+//   const handleQuestionClick = (index: number) => {
+//     setSelectedQuestion(index); // Set the selected question by index
+//   };
+
+//   // Handle selecting an option for the currently selected question
+//   const handleOptionSelect = (questionIndex: number, optionIndex: number) => {
+//     setSelectedOptions((prevOptions) => ({
+//       ...prevOptions,
+//       [questionIndex]: optionIndex, // Update the selected option for the specific question
+//     }));
+//   };
+
+//   return (
+//     <div>
+//       <div className="grid grid-cols-4">
+//         {/* Left side - List of numbers */}
+//         <div className="col-span-1 bg-gray-100 p-4 shadow-lg">
+//           <h3 className="font-bold text-lg mb-4">Chapter 1</h3>
+//           <div className="grid grid-cols-5 gap-2">
+//             {quizQuestions.map((_, i) => (
+//               <button
+//                 key={i}
+//                 onClick={() => handleQuestionClick(i)} // When a number is clicked, show the corresponding question
+//                 className={`w-10 h-10 rounded-full text-white ${i % 2 === 0 ? 'bg-red-400' : 'bg-green-400'}`}
+//               >
+//                 {i + 1} {/* Display question number */}
+//               </button>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* Right side - Display selected question */}
+//         <div className="col-span-3 bg-white p-4 shadow-lg">
+//           {selectedQuestion !== null ? (
+//             <div>
+//               <h3 className="font-bold text-lg mb-4">
+//                 {/* Display the selected question */}
+//                 Question {selectedQuestion + 1}: {quizQuestions[selectedQuestion].question}
+//               </h3>
+//               <ul>
+//                 {quizQuestions[selectedQuestion].options.map((option, optIndex) => (
+//                   <li key={optIndex} className="mb-2">
+//                     <input
+//                       type="radio"
+//                       id={`option-${selectedQuestion}-${optIndex}`}
+//                       name={`question-${selectedQuestion}`}
+//                       checked={selectedOptions[selectedQuestion] === optIndex} // Check if the option is selected
+//                       onChange={() => handleOptionSelect(selectedQuestion, optIndex)} // Update selected option
+//                     />
+//                     <label htmlFor={`option-${selectedQuestion}-${optIndex}`} className="ml-2">
+//                       {option}
+//                     </label>
+//                   </li>
+//                 ))}
+//               </ul>
+//             </div>
+//           ) : (
+//             <p>Please select a question from the list.</p> // Default message when no question is selected
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Numbers;
+
+"use client";
+
+// import React, { useState } from 'react'
+// import { quizQuestions } from '@/utils/constants' // Import your quiz questions
+
+// const Numbers = () => {
+//   // State to track the currently selected question
+//   const [selectedQuestion, setSelectedQuestion] = useState<number>(0);
+
+//   // State to track the selected option for each question
+//   const [selectedOptions, setSelectedOptions] = useState<{ [key: number]: number | null }>({});
+
+//   // Handle selecting an option for the currently selected question
+//   const handleOptionSelect = (questionIndex: number, optionIndex: number) => {
+//     setSelectedOptions((prevOptions) => ({
+//       ...prevOptions,
+//       [questionIndex]: optionIndex, // Update the selected option for the specific question
+//     }));
+//   };
+
+//   // Handle 'Save & Next' button click to go to the next question
+//   const handleSaveAndNext = () => {
+//     if (selectedQuestion < quizQuestions.length - 1) {
+//       setSelectedQuestion((prevIndex) => prevIndex + 1); // Increment the current question index
+//     }
+//   };
+
+//   // Handle 'Clear Response' to reset the selected option for the current question
+//   const handleClearResponse = () => {
+//     setSelectedOptions((prevOptions) => ({
+//       ...prevOptions,
+//       [selectedQuestion]: null, // Clear the selected option for the current question
+//     }));
+//   };
+
+//   return (
+//     <div>
+//       <div className="grid grid-cols-4">
+//         {/* Left side - List of numbers */}
+//         <div className="col-span-1 bg-gray-100 p-4 shadow-lg">
+//           <h3 className="font-bold text-lg mb-4">Chapter 1</h3>
+//           <div className="grid grid-cols-5 gap-2">
+//             {quizQuestions.map((_, i) => (
+//               <button
+//                 key={i}
+//                 onClick={() => setSelectedQuestion(i)} // Set the selected question by number
+//                 className={`w-10 h-10 rounded-full text-white ${ selectedOptions[i] !== null ? 'bg-green-400' : 'bg-red-400'}`}
+//               >
+//                 {i + 1} {/* Display question number */}
+//               </button>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* Right side - Display selected question */}
+//         <div className="col-span-3 bg-white p-4 shadow-lg">
+//           <div>
+//             <h3 className="font-bold text-lg mb-4">
+//               Question {selectedQuestion + 1}: {quizQuestions[selectedQuestion].question}
+//             </h3>
+//             <ul>
+//               {quizQuestions[selectedQuestion].options.map((option, optIndex) => (
+//                 <li key={optIndex} className="mb-2">
+//                   <input
+//                     type="radio"
+//                     id={`option-${selectedQuestion}-${optIndex}`}
+//                     name={`question-${selectedQuestion}`}
+//                     checked={selectedOptions[selectedQuestion] === optIndex} // Check if the option is selected
+//                     onChange={() => handleOptionSelect(selectedQuestion, optIndex)} // Update selected option
+//                   />
+//                   <label htmlFor={`option-${selectedQuestion}-${optIndex}`} className="ml-2">
+//                     {option}
+//                   </label>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+
+//           {/* Bottom action buttons */}
+//           <div className="fixed bottom-0 left-0 right-0 bg-gray-200 p-4 flex justify-between">
+//             <button className="bg-yellow-500 px-4 py-2 rounded text-white">Mark for Review</button>
+//             <div className="space-x-4">
+//               <button className="bg-red-500 px-4 py-2 rounded text-white" onClick={handleClearResponse}>
+//                 Clear Response
+//               </button>
+//               <button className="bg-blue-500 px-4 py-2 rounded text-white">Bookmark</button>
+//               <button className="bg-purple-500 px-4 py-2 rounded text-white">Report</button>
+//             </div>
+//             <button
+//               className="bg-green-500 px-4 py-2 rounded text-white"
+//               onClick={handleSaveAndNext} // Call the Save & Next handler
+//             >
+//               Save & Next
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Numbers;
+
+// import React, { useState, useEffect } from "react";
+// import { quizQuestions } from "@/utils/constants"; // Import your quiz questions
+// // import { useRouter } from "next/router";
+// import Link from "next/link";
+
+// const Numbers = () => {
+//     // const router = useRouter();
+//   const [selectedQuestion, setSelectedQuestion] = useState<number>(0);
+//   const [selectedOptions, setSelectedOptions] = useState<{
+//     [key: number]: number | null;
+//   }>({});
+//   const [showModal, setShowModal] = useState<boolean>(false);
+// const [quizSubmitted, setQuizSubmitted] = useState<boolean>(false);
+//   const [allAnswered, setAllAnswered] = useState<boolean>(false);
+//   const [bookmarkedQuestions, setBookmarkedQuestions] = useState<number[]>([]); // State for bookmarked questions
+
+
+//   // Timer state for 30 minutes (1800 seconds)
+//   const [timeLeft, setTimeLeft] = useState<number>(1800);
+
+//   useEffect(() => {
+//     const initialOptions: { [key: number]: number | null } = {};
+//     quizQuestions.forEach((_, index) => {
+//       initialOptions[index] = null;
+//     });
+//     setSelectedOptions(initialOptions);
+//   }, []);
+
+//   // Check if all questions are answered
+//   useEffect(() => {
+//     const answered = Object.values(selectedOptions).every(
+//       (option) => option !== null
+//     );
+//     setAllAnswered(answered); // Update allAnswered state based on this check
+//   }, [selectedOptions]);
+
+//   // Timer effect to count down every second
+//   useEffect(() => {
+//     if (timeLeft === 0) {
+//       handleSubmit(); // Auto-submit when time is up
+//     }
+
+//     const timer = setInterval(() => {
+//       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+//     }, 1000);
+
+//     return () => clearInterval(timer); // Clear the interval when component unmounts
+//   }, [timeLeft]);
+
+//   // Function to format time into MM:SS
+//   const formatTime = (seconds: number) => {
+//     const minutes = Math.floor(seconds / 60);
+//     const secs = seconds % 60;
+//     return `${minutes.toString().padStart(2, '0')}:${secs
+//       .toString()
+//       .padStart(2, '0')}`;
+//   };
+
+// //   const handleOptionSelect = (questionIndex: number, optionIndex: number) => {
+// //     setSelectedOptions((prevOptions) => ({
+// //       ...prevOptions,
+// //       [questionIndex]: optionIndex,
+// //     }));
+// //   };
+
+//   const handleSaveAndNext = () => {
+//     if (selectedQuestion < quizQuestions.length - 1) {
+//       setSelectedQuestion((prevIndex) => prevIndex + 1);
+//     } else {
+//       setShowModal(true); // Show modal on last question
+//     }
+//   };
+
+//   const handleClearResponse = () => {
+//     if (selectedOptions[selectedQuestion] !== null) {
+//       setSelectedOptions((prevOptions) => ({
+//         ...prevOptions,
+//         [selectedQuestion]: null,
+//       }));
+//     }
+//   };
+
+//   const handleCloseModal = () => {
+//     setShowModal(false);
+// // setQuizSubmitted(true); 
+//   };
+
+  
+//   const handleSubmit = () => {
+//     setShowModal(false);
+//     setQuizSubmitted(true);
+//   };
+
+  
+//   const handleOptionSelect = (questionIndex: number, optionIndex: number) => {
+//     // Update selected option and remove bookmark if any option is selected
+//     setSelectedOptions((prevOptions) => ({
+//       ...prevOptions,
+//       [questionIndex]: optionIndex,
+//     }));
+
+//     // Automatically remove the bookmark for this question when an option is selected
+//     setBookmarkedQuestions((prevBookmarks) =>
+//       prevBookmarks.filter((index) => index !== questionIndex)
+//     );
+//   };
+
+//   const handleBookmark = () => {
+//     if (bookmarkedQuestions.includes(selectedQuestion)) {
+//       setBookmarkedQuestions((prev) =>
+//         prev.filter((question) => question !== selectedQuestion)
+//       );
+//     } else {
+//       setBookmarkedQuestions((prev) => [...prev, selectedQuestion]);
+//     }
+//   };
+
+
+  
+//   return (
+//     <div  className="h-screen w-screen  flex flex-col">
+//       {/* Header with Timer */}
+//       <div>
+
+
+//       <div className="bg-blue-600 text-white py-2 px-4 flex justify-between">
+//         <span>Time Left: {formatTime(timeLeft)} mins</span> {/* Display the timer */}
+//         <span className="font-bold">QUIZ</span>
+//         <button className="bg-orange-500 px-4 py-2 rounded">Mock Exam</button>
+//       </div>
+//       </div>
+
+//       <div className="grid grid-cols-4">
+//         <div className="col-span-1 bg-gray-100 p-4 h-screen">
+//           <h3 className="font-bold text-lg mb-4">Chapter 1</h3>
+//           <div className="grid grid-cols-5 gap-2">
+//             {quizQuestions.map((_, i) => (
+//             //   <button
+//             //     key={i}
+//             //     onClick={() => setSelectedQuestion(i)}
+//             //     className={`w-10 h-10 rounded-full text-white ${
+//             //       selectedOptions[i] !== null ? "bg-green-400" : "bg-red-400"
+//             //     }`}
+//             //   >
+//             //     {i + 1}
+//             //   </button>
+//                <button
+//                key={i}
+//                onClick={() => setSelectedQuestion(i)}
+//                className={`w-10 h-10 rounded-full text-white ${
+//                  selectedOptions[i] !== null
+//                    ? "bg-green-400"
+//                    : "bg-red-400"
+//                } ${
+//                  bookmarkedQuestions.includes(i) ? "bg-blue-400" : ""
+//                }`} // Highlight bookmarked questions with a yellow ring
+//              >
+//                {i + 1}
+//              </button>
+//             ))}
+//           </div>
+//         </div>
+
+//         <div className="col-span-3 bg-white p-4 ">
+//           <div>
+//             <h3 className="font-bold text-lg mb-4">
+//               Question {selectedQuestion + 1}:{" "}
+//               {quizQuestions[selectedQuestion].question}
+//             </h3>
+//             <ul>
+//               {quizQuestions[selectedQuestion].options.map(
+//                 (option, optIndex) => (
+//                   <li key={optIndex} className="mb-2">
+//                     <input
+//                       className="cursor-pointer"
+//                       type="radio"
+//                       id={`option-${selectedQuestion}-${optIndex}`}
+//                       name={`question-${selectedQuestion}`}
+//                       checked={selectedOptions[selectedQuestion] === optIndex}
+//                       onChange={() =>
+//                         handleOptionSelect(selectedQuestion, optIndex)
+//                       }
+//                     />
+//                     <label
+//                       htmlFor={`option-${selectedQuestion}-${optIndex}`}
+//                       className="ml-2"
+//                     >
+//                       {option}
+//                     </label>
+//                   </li>
+//                 )
+//               )}
+//             </ul>
+//           </div>
+
+//           <div className="fixed bottom-0 left-0 right-0 bg-gray-200 p-4 flex justify-between">
+//             <button className="bg-yellow-500 px-4 py-2 rounded text-white">
+//               Mark for Review
+//             </button>
+//             <div className="space-x-4">
+//               <button
+//                 className="bg-red-500 px-4 py-2 rounded text-white"
+//                 onClick={handleClearResponse}
+//               >
+//                 Clear Response
+//               </button>
+//               <button className="bg-blue-500 px-4 py-2 rounded text-white" 
+//                 onClick={handleBookmark}>
+//                 Bookmark
+//               </button>
+//               {/* <button className="bg-purple-500 px-4 py-2 rounded text-white">
+//                 Report
+//               </button> */}
+//             </div>
+//             <button
+//               className={`bg-green-500 px-4 py-2 rounded text-white ${
+//                 selectedOptions[selectedQuestion] === null
+//                   ? "opacity-50 cursor-not-allowed"
+//                   : ""
+//               }`}
+//               onClick={handleSaveAndNext}
+//               disabled={selectedOptions[selectedQuestion] === null}
+//             >
+//               {selectedQuestion === quizQuestions.length - 1
+//                 ? "Submit"
+//                 : "Save & Next"}
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Modal for quiz submission */}
+//       {showModal && (
+//         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+//           <div className="bg-white p-6 rounded shadow-lg">
+//             <h3 className="text-lg font-bold mb-4">Submit Quiz</h3>
+//             <p>Are you sure you want to submit your answers?</p>
+//             <div className="mt-4 flex justify-end">
+//               <button
+//                 className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+//                 onClick={handleCloseModal}
+//               >
+//                 Cancel
+//               </button>
+//               <button
+//                 className={`bg-green-500 px-4 py-2 rounded text-white ${
+//                   !allAnswered ? "opacity-50 cursor-not-allowed" : ""
+//                 }`}
+//                 onClick={handleSubmit}
+//                 disabled={!allAnswered} // Disable if not all questions are answered
+//               >
+//                 Submit
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+// {quizSubmitted && (
+//     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+//       <div className="bg-white p-6 rounded shadow-lg">
+//         <h3 className="text-lg font-bold mb-4">Quiz Submitted</h3>
+//         <p>Your quiz has been submitted successfully!</p>
+//         <div className="mt-4 flex justify-end">
+//         <Link href="/Home">
+//                 <button className="bg-blue-500 text-white px-4 py-2 rounded">
+//                   View Results
+//                 </button>
+//               </Link>
+//           <button
+//             className="bg-blue-500 text-white px-4 py-2 rounded"
+//             onClick={() => setQuizSubmitted(false)} // Close the modal
+//           >
+//             Close
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   )}
+//     </div>
+//   );
+// };
+
+// export default Numbers;
+
+
+
+
+
+
+
+// "use client"
+// import { quizQuestions } from '@/utils/constants';
+// import React, { useState } from 'react'
+
+// const Footer = () => {
+
+
+//     const [selectedQuestion, setSelectedQuestion] = useState<number>(0);
+//     const [selectedOptions, setSelectedOptions] = useState<{
+//       [key: number]: number | null;
+//     }>({});
+//     const [bookmarkedQuestions, setBookmarkedQuestions] = useState<number[]>([]);
+//     const [showModal, setShowModal] = useState<boolean>(false);
+//     // const [quizSubmitted, setQuizSubmitted] = useState<boolean>(false);
+//     // const [allAnswered, setAllAnswered] = useState<boolean>(false);
+
+
+//     const handleSaveAndNext = () => {
+//         // Move to next question
+//         if (selectedQuestion < quizQuestions.length - 1) {
+//           // Change to red if unanswered
+//           if (selectedOptions[selectedQuestion] === null) {
+//             setSelectedOptions((prevOptions) => ({
+//               ...prevOptions,
+//               [selectedQuestion]: null, // Set to null to indicate unanswered
+//             }));
+//           }
+//           setSelectedQuestion((prevIndex) => prevIndex + 1);
+//         } else {
+//           setShowModal(true); // Show modal on last question
+//         }
+//       };
+    
+//       const handleClearResponse = () => {
+//         if (selectedOptions[selectedQuestion] !== null) {
+//           setSelectedOptions((prevOptions) => ({
+//             ...prevOptions,
+//             [selectedQuestion]: null,
+//           }));
+//         }
+//       };
+    
+//       const handleBookmark = () => {
+//         if (bookmarkedQuestions.includes(selectedQuestion)) {
+//           // Remove bookmark if it's already bookmarked
+//           setBookmarkedQuestions((prevBookmarks) =>
+//             prevBookmarks.filter((index) => index !== selectedQuestion)
+//           );
+//         } else {
+//           // Add bookmark if it's not already bookmarked
+//           setBookmarkedQuestions((prevBookmarks) => [
+//             ...prevBookmarks,
+//             selectedQuestion,
+//           ]);
+//         }
+//         handleSaveAndNext();
+//       };
+    
+    
+    
+//       const handleReviewNext = () => {
+//         if (bookmarkedQuestions.includes(selectedQuestion)) {
+//           // Navigate to the next question
+//           handleSaveAndNext();
+//         } else {
+//           // Change to yellow for review
+//           setBookmarkedQuestions((prevBookmarks) => {
+//             if (!prevBookmarks.includes(selectedQuestion)) {
+//               return [...prevBookmarks, selectedQuestion];
+//             }
+//             return prevBookmarks;
+//           });
+//           handleSaveAndNext();
+//         }
+//       };
+    
+//   return (
+//     <div>
+
+// <div className="fixed bottom-0 left-0 right-0 bg-gray-200 p-4 flex justify-between">
+//             <button
+//               className="bg-blue-500 px-4 py-2 rounded text-white"
+//               onClick={handleBookmark}
+//             >
+//               {bookmarkedQuestions.includes(selectedQuestion)
+//                 ? "Remove Bookmark"
+//                 : "Bookmark"}
+//             </button>
+//             <div className="space-x-4">
+//               <button
+//                 className="bg-red-500 px-4 py-2 rounded text-white"
+//                 onClick={handleClearResponse}
+//               >
+//                 Clear Response
+//               </button>
+              
+//             </div>
+//             <button
+//               className={`bg-yellow-500 px-4 py-2 rounded text-white ${
+//                 selectedOptions[selectedQuestion] === null
+//                   ? "opacity-50 cursor-not-allowed"
+//                   : ""
+//               }`}
+//               onClick={handleReviewNext}
+//               disabled={selectedOptions[selectedQuestion] === null}
+//             >
+//               Mark for Review & Next
+//             </button>
+//             <button
+//               className={`bg-green-500 px-4 py-2 rounded text-white ${
+//                 selectedOptions[selectedQuestion] === null
+//                   ? "opacity-50 cursor-not-allowed"
+//                   : ""
+//               }`}
+//               onClick={handleSaveAndNext}
+//               disabled={selectedOptions[selectedQuestion] === null}
+//             >
+//               {selectedQuestion === quizQuestions.length - 1
+//                 ? "Submit"
+//                 : "Save & Next"}
+//             </button>
+          
+          
+//           </div>
+//     </div>
+//   )
+// }
+
+// export default Footer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// "use client"
+
+
+// import React, { useState, useEffect } from "react";
+// import { quizQuestions } from "@/utils/constants"; // Import your quiz questions
+// import Link from "next/link";
+
+// const Numbers = () => {
+//   const [selectedQuestion, setSelectedQuestion] = useState<number>(0);
+//   const [selectedOptions, setSelectedOptions] = useState<{
+//     [key: number]: number | null;
+//   }>({});
+//   const [bookmarkedQuestions, setBookmarkedQuestions] = useState<number[]>([]);
+//   const [showModal, setShowModal] = useState<boolean>(false);
+//   const [quizSubmitted, setQuizSubmitted] = useState<boolean>(false);
+//   const [allAnswered, setAllAnswered] = useState<boolean>(false);
+
+//   // Timer state for 30 minutes (1800 seconds)
+//   const [timeLeft, setTimeLeft] = useState<number>(120);
+
+//   useEffect(() => {
+//     const initialOptions: { [key: number]: number | null } = {};
+//     quizQuestions.forEach((_, index) => {
+//       initialOptions[index] = null;
+//     });
+//     setSelectedOptions(initialOptions);
+//   }, []);
+
+//   // Check if all questions are answered
+//   useEffect(() => {
+//     const answered = Object.values(selectedOptions).every(
+//       (option) => option !== null
+//     );
+//     setAllAnswered(answered); // Update allAnswered state based on this check
+//   }, [selectedOptions]);
+
+//   // Timer effect to count down every second
+//   useEffect(() => {
+//     if (timeLeft === 0) {
+//       handleSubmit(); // Auto-submit when time is up
+//     }
+
+//     const timer = setInterval(() => {
+//       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+//     }, 1000);
+
+//     return () => clearInterval(timer); // Clear the interval when component unmounts
+//   }, [timeLeft]);
+
+//   // Function to format time into MM:SS
+// //   const formatTime = (seconds: number) => {
+// //     const minutes = Math.floor(seconds / 60);
+// //     const secs = seconds % 60;
+// //     return `${minutes.toString().padStart(2, "0")}:${secs
+// //       .toString()
+// //       .padStart(2, "0")}`;
+// //   };
+
+//   const formatTime = (seconds: number) => {
+//     const minutes = Math.floor(seconds / 60);
+//     const secs = seconds % 60;
+//     return `${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+//   };
+
+//   const handleOptionSelect = (questionIndex: number, optionIndex: number) => {
+//     // Update selected option and remove bookmark if any option is selected
+//     setSelectedOptions((prevOptions) => ({
+//       ...prevOptions,
+//       [questionIndex]: optionIndex,
+//     }));
+
+//     // Automatically remove the bookmark for this question when an option is selected
+//     setBookmarkedQuestions((prevBookmarks) =>
+//       prevBookmarks.filter((index) => index !== questionIndex)
+//     );
+//   };
+
+
+//   const handleSaveAndNext = () => {
+//     // Move to next question
+//     if (selectedQuestion < quizQuestions.length - 1) {
+//       // Change to red if unanswered
+//       if (selectedOptions[selectedQuestion] === null) {
+//         setSelectedOptions((prevOptions) => ({
+//           ...prevOptions,
+//           [selectedQuestion]: null, // Set to null to indicate unanswered
+//         }));
+//       }
+//       setSelectedQuestion((prevIndex) => prevIndex + 1);
+//     } else {
+//       setShowModal(true); // Show modal on last question
+//     }
+//   };
+
+//   const handleClearResponse = () => {
+//     if (selectedOptions[selectedQuestion] !== null) {
+//       setSelectedOptions((prevOptions) => ({
+//         ...prevOptions,
+//         [selectedQuestion]: null,
+//       }));
+//     }
+//   };
+
+//   const handleBookmark = () => {
+//     if (bookmarkedQuestions.includes(selectedQuestion)) {
+//       // Remove bookmark if it's already bookmarked
+//       setBookmarkedQuestions((prevBookmarks) =>
+//         prevBookmarks.filter((index) => index !== selectedQuestion)
+//       );
+//     } else {
+//       // Add bookmark if it's not already bookmarked
+//       setBookmarkedQuestions((prevBookmarks) => [
+//         ...prevBookmarks,
+//         selectedQuestion,
+//       ]);
+//     }
+//     handleSaveAndNext();
+//   };
+
+//   const handleCloseModal = () => {
+//     setShowModal(false); // Close modal without submitting the quiz
+//   };
+
+//   const handleSubmit = () => {
+//     setShowModal(false);
+//     setQuizSubmitted(true); // Show quiz submission modal
+//   };
+
+//   const handleReviewNext = () => {
+//     if (bookmarkedQuestions.includes(selectedQuestion)) {
+//       // Navigate to the next question
+//       handleSaveAndNext();
+//     } else {
+//       // Change to yellow for review
+//       setBookmarkedQuestions((prevBookmarks) => {
+//         if (!prevBookmarks.includes(selectedQuestion)) {
+//           return [...prevBookmarks, selectedQuestion];
+//         }
+//         return prevBookmarks;
+//       });
+//       handleSaveAndNext();
+//     }
+//   };
+
+// //   const handleReviewNext = () => {
+// //     // Move to next question, change to red if unanswered
+// //     if (selectedOptions[selectedQuestion] === null) {
+// //       setSelectedOptions((prevOptions) => ({
+// //         ...prevOptions,
+// //         [selectedQuestion]: null, // Set to null to indicate unanswered
+// //       }));
+// //     }
+// //     setSelectedQuestion((prevIndex) =>
+// //       prevIndex < quizQuestions.length - 1 ? prevIndex + 1 : prevIndex
+// //     );
+// //   };
+
+//   const getQuestionColor = (index: number) => {
+//     if (selectedOptions[index] !== null) {
+//       return "bg-green-400"; // Answered
+//     } else if (bookmarkedQuestions.includes(index)) {
+//       return "bg-blue-400"; // Marked for review
+//     } else if (index < selectedQuestion) {
+//       return "bg-red-400"; // Visited but not answered
+//     }
+//     return "bg-gray-400"; // Unvisited
+//   };
+
+//   return (
+//     <div className="h-screen w-screen flex flex-col">
+//       {/* Header with Timer */}
+//       <div>
+//         <div className="bg-blue-600 text-white py-2 px-4 flex justify-between">
+//           <span>Time Left: {formatTime(timeLeft)} mins</span>
+//           <span className="font-bold">QUIZ</span>
+//           <h1 className="bg-orange-500 px-4 py-2 rounded">Mock Exam</h1>
+//         </div>
+//       </div>
+
+//       <div className="grid grid-cols-4">
+//         <div className="col-span-1 bg-gray-100 p-4 h-screen">
+//           <h3 className="font-bold text-lg mb-4">Chapter 1</h3>
+//           <div className="grid grid-cols-5 gap-2">
+//             {quizQuestions.map((_, i) => (
+//               <button
+//                 key={i}
+//                 onClick={() => setSelectedQuestion(i)}
+//                 className={`w-10 h-10 rounded-full text-white ${getQuestionColor(i)}`}
+//               >
+//                 {i + 1}
+//               </button>
+//             ))}
+//           </div>
+//         </div>
+
+//         <div className="col-span-3 bg-white p-4">
+//           <div>
+//             <h3 className="font-bold text-lg mb-4">
+//               Question {selectedQuestion + 1}:{" "}
+//               {quizQuestions[selectedQuestion].question}
+//             </h3>
+//             <ul>
+//               {quizQuestions[selectedQuestion].options.map(
+//                 (option, optIndex) => (
+//                   <li key={optIndex} className="mb-2">
+//                     <input
+//                       className="cursor-pointer"
+//                       type="radio"
+//                       id={`option-${selectedQuestion}-${optIndex}`}
+//                       name={`question-${selectedQuestion}`}
+//                       checked={selectedOptions[selectedQuestion] === optIndex}
+//                       onChange={() =>
+//                         handleOptionSelect(selectedQuestion, optIndex)
+//                       }
+//                     />
+//                     <label
+//                       htmlFor={`option-${selectedQuestion}-${optIndex}`}
+//                       className="ml-2"
+//                     >
+//                       {option}
+//                     </label>
+//                   </li>
+//                 )
+//               )}
+//             </ul>
+//           </div>
+
+//           <div className="fixed bottom-0 left-0 right-0 bg-gray-200 p-4 flex justify-between">
+//             <button
+//               className="bg-blue-500 px-4 py-2 rounded text-white"
+//               onClick={handleBookmark}
+//             >
+//               {bookmarkedQuestions.includes(selectedQuestion)
+//                 ? "Remove Bookmark"
+//                 : "Bookmark"}
+//             </button>
+//             <div className="space-x-4">
+//               <button
+//                 className="bg-red-500 px-4 py-2 rounded text-white"
+//                 onClick={handleClearResponse}
+//               >
+//                 Clear Response
+//               </button>
+              
+//             </div>
+//             <button
+//               className={`bg-yellow-500 px-4 py-2 rounded text-white ${
+//                 selectedOptions[selectedQuestion] === null
+//                   ? "opacity-50 cursor-not-allowed"
+//                   : ""
+//               }`}
+//               onClick={handleReviewNext}
+//               disabled={selectedOptions[selectedQuestion] === null}
+//             >
+//               Mark for Review & Next
+//             </button>
+//             <button
+//               className={`bg-green-500 px-4 py-2 rounded text-white ${
+//                 selectedOptions[selectedQuestion] === null
+//                   ? "opacity-50 cursor-not-allowed"
+//                   : ""
+//               }`}
+//               onClick={handleSaveAndNext}
+//               disabled={selectedOptions[selectedQuestion] === null}
+//             >
+//               {selectedQuestion === quizQuestions.length - 1
+//                 ? "Submit"
+//                 : "Save & Next"}
+//             </button>
+          
+          
+//           </div>
+//         </div>
+//       </div>
+//       {showModal && (
+//         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+//           <div className="bg-white p-6 rounded shadow-lg">
+//             <h3 className="text-lg font-bold mb-4">Submit Quiz</h3>
+//             <p>Are you sure you want to submit your answers?</p>
+//             <div className="mt-4 flex justify-end">
+//               <button
+//                 className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+//                 onClick={handleCloseModal}
+//               >
+//                 Cancel
+//               </button>
+//               <button
+//                 className={`bg-green-500 px-4 py-2 rounded text-white ${
+//                   !allAnswered ? "opacity-50 cursor-not-allowed" : ""
+//                 }`}
+//                 onClick={handleSubmit}
+//                 disabled={!allAnswered} // Disable if not all questions are answered
+//               >
+//                 Submit
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+// {quizSubmitted && (
+//     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+//       <div className="bg-white p-6 rounded shadow-lg">
+//         <h3 className="text-lg font-bold mb-4">Quiz Submitted</h3>
+//         <p>Your quiz has been submitted successfully!</p>
+//         <div className="mt-4 flex justify-end">
+//         <Link href="/Home">
+//                 <button className="bg-blue-500 text-white px-4 py-2 rounded">
+//                   close
+//                 </button>
+//               </Link>
+//           {/* <button
+//             className="bg-blue-500 text-white px-4 py-2 rounded"
+//             onClick={() => setQuizSubmitted(false)} // Close the modal
+//           >
+//             Close
+//           </button> */}
+//         </div>
+//       </div>
+//     </div>
+//   )}
+//     </div>
+//   );
+// };
+
+// export default Numbers;
